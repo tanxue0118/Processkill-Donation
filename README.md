@@ -21,7 +21,7 @@
 | **黑白名单** | 支持通配符匹配，白名单免杀、黑名单强杀 |
 | **动态保护** | 若某进程在最近 5 轮中被杀次数过多，自动进入临时保护期，避免反复拉起增加功耗 |
 | **低内存清爽后台** | 可用内存低于阈值时，自动 `force-stop` 最老的后台应用 |
-| **前台保护** | 自动识别 `top-app`、`foreground`、`system-control` 组的进程并跳过 |
+| **前台保护** | 智能判断前台并跳过 |
 | **实时配置热加载** | 通过 `inotify` 监听配置文件修改，无需重启即生效 |
 | **日志自动清理** | 超过最大行数自动截断，防止日志膨胀 |
 | **累计统计** | 记录总压制次数，写入 `module.prop` 描述中展示 |
@@ -91,20 +91,6 @@ com.tencent.mobileqq:MSF
 - 白名单进程永远不会被杀
 - 黑名单进程无视 OOM 阈值直接 kill
 
-## 🔧 编译
-
-使用 Android NDK 交叉编译：
-
-```bash
-# 设置 NDK 工具链
-export CC=aarch64-linux-android30-clang
-
-# 编译
-$CC -O2 -Wall -static -o processkill processkill.c
-```
-
-> **注意**：代码依赖 `sys/system_properties.h` 和 `sys/inotify.h` 等 Linux 特定头文件，仅适用于 Android/Linux 环境。
-
 ## 🧠 运行机制
 
 ```
@@ -169,7 +155,3 @@ $CC -O2 -Wall -static -o processkill processkill.c
 - `deep_press=1` 模式下会杀掉所有超过 OOM 阈值的进程（包括主进程），请谨慎使用
 - 默认模式 (`deep_press=0`) 只杀带冒号的子进程（如 `com.app:service`），更加安全
 - 压制统计达到 100000 后自动归零
-
-## 📜 License
-
-MIT License
