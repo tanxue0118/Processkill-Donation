@@ -109,10 +109,10 @@ com.tencent.mobileqq:MSF
 │   遍历 /proc         load_list()        │
 │   检查 OOM 分数      热更新配置          │
 │   执行压制策略                           │
-│       │                                  │
-│       ▼                                  │
-│   do_oldest_clean_if_needed()            │
-│   低内存时清理最老后台应用               │
+│       │                                 │
+│       ▼                                 │
+│   do_oldest_clean_if_needed()           │
+│   低内存时清理最老后台应用                │
 └─────────────────────────────────────────┘
 ```
 
